@@ -110,33 +110,28 @@ export class BooksService {
   }
   async getListBookByUserId(userId: string, paginationDto: PaginationDto) {
     try {
+      console.log(userId);
       const { limit, startAfter, sorted } = paginationDto;
       const user = await db.collection('users').doc(`${userId}`).get();
       if (!user.exists) {
         throw new NotFoundException(`Cannot find this user`);
       }
 
-      let bookRef;
+      let bookRef = db.collection('books').orderBy('createdAt', sorted);
 
       if (!startAfter) {
-        bookRef = await db
-          .collection('books')
-          .orderBy('createdAt', sorted)
-          .limit(+limit)
-          .where('userId', '==', userId)
-          .get();
+        bookRef = bookRef.limit(+limit).where('userId', '==', userId);
       }
 
       if (startAfter) {
-        bookRef = await db
-          .collection('books')
-          .orderBy('createdAt', sorted)
+        bookRef = bookRef
           .limit(+limit)
           .where('userId', '==', userId)
-          .startAfter(+startAfter)
-          .get();
+          .startAfter(+startAfter);
       }
-      const bookDocs = await bookRef.docs;
+      const querySnapshot = await bookRef.get();
+      const bookDocs = await querySnapshot.docs;
+
       // const books = [];
       const res = bookDocs.map((book) => {
         return { bookId: book.id, ...book.data() };

@@ -6,8 +6,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { BooksService } from './books/books.service';
 import { BooksModule } from './books/books.module';
-import { HttpExceptionFilter } from './common/http-exception/http-exception.filter';
-import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [

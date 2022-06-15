@@ -5,9 +5,15 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "16"
+  },
+  "main": "./dist/index.js",
   "scripts": {
     "prenest:build": "rimraf dist",
     "start": "npm-run-all --parallel nest:start:dev fb:serve",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "build": "nest build",
     "deploy": "npm-run-all nest:build fb:deploy",
     "nest:build": "nest build",
     "nest:start": "nest start",
@@ -37,6 +43,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "firebase": "^9.8.3",
     "firebase-admin": "^10.3.0",
     "firebase-functions": "^3.21.2",
